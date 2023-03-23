@@ -1,10 +1,12 @@
 import random
 import time
+import logging
 from flask import Flask, request, Response
 from prometheus_flask_exporter import PrometheusMetrics
 
 
 app = Flask(__name__)
+app.logger.setLevel(logging.INFO)
 metrics = PrometheusMetrics(app)
 
 # static information as metric
@@ -55,11 +57,29 @@ def echo_status(status):
 
 @app.route('/maybe-error')
 def maybe_error():
+    error_codes = [
+        400,
+        401,
+        403,
+        404,
+        500,
+        414,
+        501,
+        503,
+    ]
+    success_codes = [
+        200,
+        201,
+        202,
+        304,
+    ]
+    random.shuffle(error_codes)
+    random.shuffle(success_codes)
     response_code = 200
     draw = random.choice(range(0,100))
-    if draw > 80:
-        response_code = random.choice(range(400,600))
-    elif draw < 40:
-        response_code = random.choice(range(200,400))
+    if draw > 70:
+        response_code = random.choice(error_codes)
+    else:
+        response_code = random.choice(success_codes)
     app.logger.info('draw={}   response_code={}'.format(draw, response_code))
     return 'served', response_code
