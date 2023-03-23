@@ -25,4 +25,8 @@ class QuickstartUser(HttpUser):
     def item(self):
         self.client.get('/long-running')
 
+    @task(2)
+    def item(self):
+        self.client.get('/status/{}'.format(random.randint(10,20)))
+
     
