@@ -57,7 +57,7 @@ def echo_status(status):
 def maybe_error():
     response_code = 200
     draw = random.choice(range(0,100))
-    if draw > 60:
+    if draw > 80:
         response_code = random.choice(range(400,600))
     elif draw < 40:
         response_code = random.choice(range(200,400))

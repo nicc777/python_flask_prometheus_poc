@@ -22,11 +22,15 @@ class QuickstartUser(HttpUser):
         self.client.get('/{}'.format(item))
 
     @task(3)
-    def item(self):
+    def long_running(self):
         self.client.get('/long-running')
 
     @task(2)
-    def item(self):
+    def status(self):
         self.client.get('/status/{}'.format(random.randint(10,20)))
+
+    @task
+    def maybe_error(self):
+        self.client.get('/maybe-error')
 
     
