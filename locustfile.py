@@ -21,4 +21,8 @@ class QuickstartUser(HttpUser):
         )
         self.client.get('/{}'.format(item))
 
+    @task(3)
+    def item(self):
+        self.client.get('/long-running')
+
     
