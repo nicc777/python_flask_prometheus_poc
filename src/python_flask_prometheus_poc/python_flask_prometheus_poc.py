@@ -51,3 +51,15 @@ def echo_status(status):
     msg = '/status/{} called'.format(status)
     app.logger.info(msg)
     return Response(msg, mimetype='text/plain')
+
+
+@app.route('/maybe-error')
+def maybe_error():
+    response_code = 200
+    draw = random.choice(range(0,100))
+    if draw > 60:
+        response_code = random.choice(range(400,600))
+    elif draw < 40:
+        response_code = random.choice(range(200,400))
+    app.logger.info('draw={}   response_code={}'.format(draw, response_code))
+    return 'served', response_code
